@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Support.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="VectorExtGenerator.fs" />
