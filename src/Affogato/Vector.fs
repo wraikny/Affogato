@@ -149,7 +149,7 @@ module Vector3 =
 
 [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Vector4 =
-    let inline init x y z w : 'a Vector4 = Vector4<_>.Init(x, y, z, w)
+  let inline init x y z w : 'a Vector4 = Vector4<_>.Init(x, y, z, w)
 
 
 type Vector = Vector with
