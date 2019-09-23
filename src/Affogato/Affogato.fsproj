@@ -3,5 +3,11 @@
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Utils.fs" />
+    <Compile Include="Vector.fs" />
+    <Compile Include="VectorExtGenerator.fs" />
+    <Compile Include="VectorExt.fs" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
