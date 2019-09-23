@@ -163,9 +163,9 @@ type Vector = Vector with
 module Vector =
   let inline constraint' v =
     let inline f (_ : ^V) (_ : ^Va ) =
-        ((^V or ^Va) : (static member VectorImpl : ^Va -> Vector)
-            Unchecked.defaultof<_>
-        )
+      ((^V or ^Va) : (static member VectorImpl : ^Va -> Vector)
+          Unchecked.defaultof<_>
+      )
 
     f Vector v |> ignore
 
