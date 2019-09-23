@@ -228,19 +228,19 @@ type Triangle2< ^a
       when ^a: (static member Zero: ^a)
       and  ^a: (static member One: ^a)
       and  ^a: struct
-  > = Triangle< Vector2< ^a > >
+  > = ^a Vector2 Triangle
 
 type Triangle3< ^a
       when ^a: (static member Zero: ^a)
       and  ^a: (static member One: ^a)
       and  ^a: struct
-  > = Triangle< Vector3< ^a > >
+  > = ^a Vector3 Triangle
 
 type Triangle4< ^a
       when ^a: (static member Zero: ^a)
       and  ^a: (static member One: ^a)
       and  ^a: struct
-  > = Triangle< Vector4< ^a > >
+  > = ^a Vector4 Triangle
 
 
 [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
