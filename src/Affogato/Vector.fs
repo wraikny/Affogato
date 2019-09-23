@@ -4,7 +4,7 @@ namespace Affogato
 type Vector2< ^a
     when ^a: (static member Zero: ^a)
     and  ^a: (static member One: ^a)
-    and ^a: struct
+    and  ^a: struct
   > = {
   x : ^a
   y : ^a
@@ -17,7 +17,7 @@ type Vector2< ^a
   static member inline Map(v: ^a Vector2, f: ^a -> ^b)=
     Vector2< ^a >.Init(f v.x, f v.y)
 
-  static member inline private Map2(a, b, f) = {
+  static member inline Map2(a, b, f) = {
     x = f a.x b.x
     y = f a.y b.y
   }
@@ -43,7 +43,7 @@ type Vector2< ^a
 type Vector3< ^a
     when ^a: (static member Zero: ^a)
     and  ^a: (static member One: ^a)
-    and ^a: struct
+    and  ^a: struct
   > = {
   x : ^a
   y : ^a
@@ -57,7 +57,7 @@ type Vector3< ^a
   static member inline Map(v: ^a Vector3, f: ^a -> ^b)=
     Vector3< ^a >.Init(f v.x, f v.y, f v.z)
 
-  static member inline private Map2(a, b, f) = {
+  static member inline Map2(a, b, f) = {
     x = f a.x b.x
     y = f a.y b.y
     z = f a.z b.z
@@ -84,7 +84,7 @@ type Vector3< ^a
 type Vector4< ^a
     when ^a: (static member Zero: ^a)
     and  ^a: (static member One: ^a)
-    and ^a: struct
+    and  ^a: struct
   > = {
   x : ^a
   y : ^a
@@ -99,7 +99,7 @@ type Vector4< ^a
   static member inline Map(v: ^a Vector4, f: ^a -> ^b)=
     Vector4< ^a >.Init(f v.x, f v.y, f v.z, f v.w)
 
-  static member inline private Map2(a, b, f) = {
+  static member inline Map2(a, b, f) = {
     x = f a.x b.x
     y = f a.y b.y
     z = f a.z b.z
