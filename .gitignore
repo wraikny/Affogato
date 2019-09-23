@@ -393,4 +393,4 @@ paket-files/
 .ionide/
 .packages/
 .paket/paket.exe
-src/Affogato/VectorAccessor.fs
+src/Affogato/VectorExt.fs
