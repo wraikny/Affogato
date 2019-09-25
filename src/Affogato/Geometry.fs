@@ -103,7 +103,7 @@ module Rectangle =
 
   let inline diagonalPosition (r: '``Vector<'a>`` Rectangle) : '``Vector<'a>`` =
     Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
-    map2 (+) r.position r.size
+    r.position + r.size
 
   let inline centerPosition (r: '``Vector<'a>`` Rectangle) : '``Vector<'a>`` =
     Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)

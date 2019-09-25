@@ -22,17 +22,17 @@ type Vector2< ^a
     y = f a.y b.y
   }
 
-  static member inline (~-) (a): 'a Vector2 = map (~-) a
-  static member inline (+) (a, b): 'a Vector2 = map2 (+) a b
-  static member inline (-) (a, b): 'a Vector2 = map2 (-) a b
-  static member inline (*) (a, b): 'a Vector2 = map2 (*) a b
-  static member inline (/) (a, b): 'a Vector2 = map2 (/) a b
-  static member inline (%) (a, b): 'a Vector2 = map2 (%) a b
-  static member inline ( .* ) (a, b): 'a Vector2 = a * pure' b
-  static member inline ( *. ) (a, b): 'a Vector2 = pure' a * b
-  static member inline ( ./ ) (a, b): 'a Vector2 = a / pure' b
-  static member inline ( /. ) (a, b): 'a Vector2 = pure' a / b
-  static member inline ( .% ) (a, b): 'a Vector2 = a % pure' b
+  static member inline (~-) (a: 't Vector2): 't Vector2 = map (~-) a
+  static member inline (+) (a: 't Vector2, b: 't Vector2): 't Vector2 = map2 (+) a b
+  static member inline (-) (a: 't Vector2, b: 't Vector2): 't Vector2 = map2 (-) a b
+  static member inline (*) (a: 't Vector2, b: 't Vector2): 't Vector2 = map2 (*) a b
+  static member inline (/) (a: 't Vector2, b: 't Vector2): 't Vector2 = map2 (/) a b
+  static member inline (%) (a: 't Vector2, b: 't Vector2): 't Vector2 = map2 (%) a b
+  static member inline ( *. ) (a: 't, b: 't Vector2): 't Vector2 = pure' a * b
+  static member inline ( /. ) (a: 't, b: 't Vector2): 't Vector2 = pure' a / b
+  static member inline ( .* ) (a: 't Vector2, b: 't): 't Vector2 = a * pure' b
+  static member inline ( ./ ) (a: 't Vector2, b: 't): 't Vector2 = a / pure' b
+  static member inline ( .% ) (a: 't Vector2, b: 't): 't Vector2 = a % pure' b
 
   static member inline Dot(a, b): 'a = a.x * b.x + a.y * b.y
 
@@ -63,17 +63,17 @@ type Vector3< ^a
     z = f a.z b.z
   }
 
-  static member inline (~-) (a): 'a Vector3 = map (~-) a
-  static member inline (+) (a, b): 'a Vector3 = map2 (+) a b
-  static member inline (-) (a, b): 'a Vector3 = map2 (-) a b
-  static member inline (*) (a, b): 'a Vector3 = map2 (*) a b
-  static member inline (/) (a, b): 'a Vector3 = map2 (/) a b
-  static member inline (%) (a, b): 'a Vector3 = map2 (%) a b
-  static member inline ( .* ) (a, b): 'a Vector3 = a * pure' b
-  static member inline ( *. ) (a, b): 'a Vector3 = pure' a * b
-  static member inline ( ./ ) (a, b): 'a Vector3 = a / pure' b
-  static member inline ( /. ) (a, b): 'a Vector3 = pure' a / b
-  static member inline ( .% ) (a, b): 'a Vector3 = a % pure' b
+  static member inline (~-) (a: 't Vector3): 't Vector3 = map (~-) a
+  static member inline (+) (a: 't Vector3, b: 't Vector3): 't Vector3 = map2 (+) a b
+  static member inline (-) (a: 't Vector3, b: 't Vector3): 't Vector3 = map2 (-) a b
+  static member inline (*) (a: 't Vector3, b: 't Vector3): 't Vector3 = map2 (*) a b
+  static member inline (/) (a: 't Vector3, b: 't Vector3): 't Vector3 = map2 (/) a b
+  static member inline (%) (a: 't Vector3, b: 't Vector3): 't Vector3 = map2 (%) a b
+  static member inline ( *. ) (a: 't, b: 't Vector3): 't Vector3 = pure' a * b
+  static member inline ( /. ) (a: 't, b: 't Vector3): 't Vector3 = pure' a / b
+  static member inline ( .* ) (a: 't Vector3, b: 't): 't Vector3 = a * pure' b
+  static member inline ( ./ ) (a: 't Vector3, b: 't): 't Vector3 = a / pure' b
+  static member inline ( .% ) (a: 't Vector3, b: 't): 't Vector3 = a % pure' b
 
   static member inline Dot(a, b): 'a = a.x * b.x + a.y * b.y + a.z * b.z
 
@@ -106,17 +106,17 @@ type Vector4< ^a
     w = f a.w b.w
   }
 
-  static member inline (~-) (a): 'a Vector4 = map (~-) a
-  static member inline (+) (a, b): 'a Vector4 = map2 (+) a b
-  static member inline (-) (a, b): 'a Vector4 = map2 (-) a b
-  static member inline (*) (a, b): 'a Vector4 = map2 (*) a b
-  static member inline (/) (a, b): 'a Vector4 = map2 (/) a b
-  static member inline (%) (a, b): 'a Vector4 = map2 (%) a b
-  static member inline ( .* ) (a, b): 'a Vector4 = a * pure' b
-  static member inline ( *. ) (a, b): 'a Vector4 = pure' a * b
-  static member inline ( ./ ) (a, b): 'a Vector4 = a / pure' b
-  static member inline ( /. ) (a, b): 'a Vector4 = pure' a / b
-  static member inline ( .% ) (a, b): 'a Vector4 = a % pure' b
+  static member inline (~-) (a: 't Vector4): 't Vector4 = map (~-) a
+  static member inline (+) (a: 't Vector4, b: 't Vector4): 't Vector4 = map2 (+) a b
+  static member inline (-) (a: 't Vector4, b: 't Vector4): 't Vector4 = map2 (-) a b
+  static member inline (*) (a: 't Vector4, b: 't Vector4): 't Vector4 = map2 (*) a b
+  static member inline (/) (a: 't Vector4, b: 't Vector4): 't Vector4 = map2 (/) a b
+  static member inline (%) (a: 't Vector4, b: 't Vector4): 't Vector4 = map2 (%) a b
+  static member inline ( *. ) (a: 't, b: 't Vector4): 't Vector4 = pure' a * b
+  static member inline ( /. ) (a: 't, b: 't Vector4): 't Vector4 = pure' a / b
+  static member inline ( .* ) (a: 't Vector4, b: 't): 't Vector4 = a * pure' b
+  static member inline ( ./ ) (a: 't Vector4, b: 't): 't Vector4 = a / pure' b
+  static member inline ( .% ) (a: 't Vector4, b: 't): 't Vector4 = a % pure' b
 
   static member inline Dot(a, b): 'a = a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w
 
