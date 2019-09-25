@@ -10,6 +10,7 @@
     <Compile Include="VectorExtGenerator.fs" />
     <Compile Include="VectorExt.fs" />
     <Compile Include="Geometry.fs" />
+    <Compile Include="Color.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
