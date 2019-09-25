@@ -14,6 +14,10 @@
     <Compile Include="Geometry.fs" />
     <Compile Include="Color.fs" />
     <Compile Include="Easing.fs" />
+    <Compile Include="Graph.fs" />
+    <Compile Include="Algorithm/UnionFold.fs" />
+    <Compile Include="Algorithm/SpanningTree.fs" />
+    <Compile Include="Algorithm/Delaunay.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
