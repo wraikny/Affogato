@@ -15,9 +15,9 @@ type Vector2< ^a
   static member inline One: ^a Vector2 = pure' one
 
   static member inline Map(v: ^a Vector2, f: ^a -> ^b)=
-    Vector2< ^a >.Init(f v.x, f v.y)
+    Vector2< ^b >.Init(f v.x, f v.y)
 
-  static member inline Map2(a, b, f) = {
+  static member inline Map2(a: ^a Vector2, b: ^b Vector2, f): ^c Vector2 ={
     x = f a.x b.x
     y = f a.y b.y
   }

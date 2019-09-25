@@ -47,10 +47,10 @@ module Line =
     (a.startPoint = b.startPoint && a.endPoint = b.endPoint)
     || (a.endPoint = b.startPoint && a.startPoint = b.endPoint)
 
-  let inline length (l : '``Vec<'a>`` Line) =
+  let inline length (l : '``Vector<'a>`` Line) =
     Vector.length(l.startPoint - l.endPoint)
 
-  let inline squaredLength (l : '``Vec<'a>`` Line) =
+  let inline squaredLength (l : '``Vector<'a>`` Line) =
     Vector.squaredLength(l.startPoint - l.endPoint)
 
 
@@ -101,24 +101,24 @@ module Rectangle =
   let inline up r = r.position.y
   let inline down r = r.position.y + r.size.y
 
-  let inline diagonalPosition r : '``Vec<'a>`` =
-    Vector.constraint' (Unchecked.defaultof< '``Vec<'a>`` >)
-    r.position + r.size
+  let inline diagonalPosition (r: '``Vector<'a>`` Rectangle) : '``Vector<'a>`` =
+    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
+    map2 (+) r.position r.size
 
-  let inline centerPosition r : '``Vec<'a>`` =
-    Vector.constraint' (Unchecked.defaultof< '``Vec<'a>`` >)
-    let two = one + one
+  let inline centerPosition (r: '``Vector<'a>`` Rectangle) : '``Vector<'a>`` =
+    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
+    let two: '``Vector<'a>`` = one + one
     r.position + r.size / two
 
-  let inline lurd r : ('``Vec<'a>`` * '``Vec<'a>``) =
-    Vector.constraint' (Unchecked.defaultof< '``Vec<'a>`` >)
+  let inline lurd r : ('``Vector<'a>`` * '``Vector<'a>``) =
+    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
     r.position, diagonalPosition r
 
-  let inline isCollidedAxis(axis : '``Vec<'a>`` -> 'a) (aLU, aRD) (bLU, bRD) : bool =
+  let inline isCollidedAxis(axis : '``Vector<'a>`` -> 'a) (aLU, aRD) (bLU, bRD) : bool =
     Utils.inCollision (axis aLU, axis aRD) (axis bLU, axis bRD)
 
-  let inline isInside (p : '``Vec<'a>``) r : bool =
-    Vector.constraint' (Unchecked.defaultof< '``Vec<'a>`` >)
+  let inline isInside (p : '``Vector<'a>``) r : bool =
+    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
 
     let lu, rd = lurd r
     
@@ -129,11 +129,8 @@ module Rectangle =
 
 
   let inline isCollided2 (a : ^a Rectangle2) (b : ^a Rectangle2) : bool =
-    let aLU = a.position
-    let aRD = aLU + a.size
-
-    let bLU = b.position
-    let bRD = bLU + b.size
+    let aLU, aRD = lurd a
+    let bLU, bRD = lurd b
 
     let inline f (axis : _ -> ^a) =
       not(axis bRD < axis aLU || axis aRD < axis bLU)
@@ -187,14 +184,14 @@ module Sphere =
   let inline center c = c.center
   let inline radius c = c.radius
 
-  let inline isInside (p : 'a) (c : Sphere<'a, '``Vec<'a>``>) : bool =
-    Vector.constraint' (Unchecked.defaultof< '``Vec<'a>`` >)
+  let inline isInside (p : 'a) (c : Sphere<'a, '``Vector<'a>``>) : bool =
+    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
 
     let distance = Vector.squaredLength(p - c.center)
     distance < (c.radius * c.radius)
 
-  let inline isCollided (a : Sphere<'a, '``Vec<'a>``>) (b : Sphere<'a, '``Vec<'a>``>) : bool =
-    Vector.constraint' (Unchecked.defaultof< '``Vec<'a>`` >)
+  let inline isCollided (a : Sphere<'a, '``Vector<'a>``>) (b : Sphere<'a, '``Vector<'a>``>) : bool =
+    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
 
     let distance = (a.center - b.center) |> Vector.squaredLength
     let radiusSum =
