@@ -1,13 +1,12 @@
 namespace Affogato.Algorithm
 
 open Affogato.Graph
-open System.Linq
 
 type UnionFold(num) =
-  let par = (seq { for i in 0..num -> i }).ToList()
-  let rank = (seq { for _ in 0..num -> 0 }).ToList()
+  let par = [| for i in 0..num -> i |]
+  let rank = Array.zeroCreate (num+1)
 
-  member inline private this.Root (node : int) =
+  member private this.Root (node : int) =
     if par.[node] = node then
       node
     else
@@ -16,10 +15,10 @@ type UnionFold(num) =
       r
 
 
-  member inline this.InSameSet(label1, label2) =
+  member this.InSameSet(label1, label2) =
     this.Root(label1) = this.Root(label2)
 
-  member inline this.InSameSet(edge: Edge<_,_>) =
+  member this.InSameSet(edge: Edge<_,_>) =
     this.InSameSet(edge.node1.label, edge.node2.label)
 
 
