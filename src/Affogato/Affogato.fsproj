@@ -11,6 +11,7 @@
     <Compile Include="VectorExt.fs" />
     <Compile Include="Geometry.fs" />
     <Compile Include="Color.fs" />
+    <Compile Include="Easing.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
