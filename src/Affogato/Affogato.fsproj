@@ -5,6 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Support.fs" />
+    <Compile Include="Collections/HashMap.fs" />
+    <Compile Include="Collections/Queue.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="VectorExtGenerator.fs" />
