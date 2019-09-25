@@ -1,8 +1,13 @@
 [<AutoOpen>]
-module Affogato.Support
+module internal Affogato.Support
+
+let inline implicit (x: ^a) : ^b = ((^a or ^b) : (static member op_Implicit : ^a -> ^b) x)
 
 let inline zero< ^a when ^a: (static member Zero: ^a) > = LanguagePrimitives.GenericZero< ^a >
 let inline one< ^a when ^a: (static member One: ^a) > = LanguagePrimitives.GenericOne< ^a >
+
+let inline flip f x y = f y x
+let inline devidedBy q p = p / q
 
 let inline map (f: 'a -> 'b) (x: ^``Functor<'a>``) : '``Functor<'b>`` =
   (^``Functor<'a>``: (static member Map: _*_->_) x, f)
