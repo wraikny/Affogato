@@ -2,7 +2,7 @@ namespace Affogato.Graph
 
 open Affogato
 
-[<CustomEquality; NoComparison>]
+[<Struct; CustomEquality; NoComparison>]
 type Node<'a> = {
     label : int
     value : 'a
@@ -27,8 +27,7 @@ module Node =
 
 [<CustomEquality; NoComparison>]
 type Edge< 'a, 'w
-  when 'a: struct
-  and  'w: equality
+  when 'w: equality
   > = {
     node1 : Node<'a>
     node2 : Node<'a>
