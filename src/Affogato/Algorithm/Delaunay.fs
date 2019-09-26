@@ -5,7 +5,7 @@ open Affogato.Graph
 
 module Delaunay2 =
     /// 全体を包含する正三角形を求める
-    let getHugeTriangle (range : float32 Rectangle2) : float32 Triangle2 =
+    let inline private getHugeTriangle (range : float32 Rectangle2) : float32 Triangle2 =
 
         // 与えられた矩形を包含する円を求める  
         let center = range |> Rectangle.centerPosition
@@ -30,7 +30,7 @@ module Delaunay2 =
     open System.Linq
 
 
-    let getTrianglesList (points : Node<float32 Vector2> list) : HashSet<TriangleEdge> =
+    let getTriangles (points : Node<float32 Vector2> list) : HashSet<TriangleEdge> =
         let minX, minY, maxX, maxY =
             let rec f (ps : Node<float32 Vector2> list) result =
                 ps |> function
@@ -122,8 +122,8 @@ module Delaunay2 =
         trianglesSet
 
 
-    let getNodesList points : Edge<float32 Vector2, float32> list =
-        let triangles = getTrianglesList points
+    let getEdges points : Edge<float32 Vector2, float32> list =
+        let triangles = getTriangles points
 
         let edges = new List<Edge<float32 Vector2, float32>>()
         for t in triangles do

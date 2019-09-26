@@ -19,7 +19,6 @@ module Utils =
     a * cos x, a * sin x
 
 
-module BinarySearch =
   let inline binarySearch count predicate (current : 'a) (target : 'a) : 'a =
     let two : 'a = one + one
 

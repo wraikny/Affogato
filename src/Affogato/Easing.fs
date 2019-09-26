@@ -18,7 +18,7 @@ type Easing =
 
 open System
 
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Easing =
   let private pi = 3.14159265358979f
 

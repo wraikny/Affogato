@@ -20,7 +20,7 @@ type Node<'a> = {
     this.label.GetHashCode()
 
 
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Node =
   let inline init label value = { label=label; value=value }
 
@@ -54,7 +54,7 @@ type Edge< 'a, 'w
     ^^^ this.weight.GetHashCode()
 
 
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+[<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Edge =
   let inline label1 x = x.node1.label
   let inline label2 x = x.node2.label

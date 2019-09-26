@@ -17,6 +17,9 @@ let inline (|>>) (x: ^``Functor<'a>``) (f: ^a -> ^b) : ^``Functor<'b>`` = map f 
 let inline map2 (f: ^a -> ^b -> ^c) (x: ^``Functor<'a>``) (y: ^``Functor<'b>``) : ^``Functor<'c>`` =
   ( (^``Functor<'a>`` or ^``Functor<'b>``): (static member Map2: _*_*_->_) x, y, f)
 
+let inline map2' (f: ^a -> ^a -> ^a) (x: ^``Functor<'a>``) (y: ^``Functor<'a>``): ^``Functor<'a>`` =
+    map2 f x y
+
 let inline pure' x: ^a = (^a: (static member Return: _->_) x)
 
 let inline isNan x = System.Double.IsNaN (float x)
