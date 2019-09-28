@@ -16,12 +16,15 @@ Target.create "Generate" (fun _ ->
 Target.create "Clean" (fun _ ->
   !! "src/**/bin"
   ++ "src/**/obj"
+  ++ "tests/**/bin"
+  ++ "tests/**/obj"
   |> Shell.cleanDirs
   Trace.log "Clean finished"
 )
 
 Target.create "Build" (fun _ ->
   !! "src/**/*.*proj"
+  ++ "tests/**/*.*proj"
   |> Seq.iter (DotNet.build id)
   Trace.log "Build finished"
 )
