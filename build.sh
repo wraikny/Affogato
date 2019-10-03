@@ -1,21 +1,6 @@
 #!/bin/bash
-if test "$OS" = "Windows_NT"
-then
-  # use .Net
-
-  .paket/paket.exe restore
-  exit_code=$?
-  if [ $exit_code -ne 0 ]; then
-  	exit $exit_code
-  fi
-
-  packages/build/FAKE/tools/FAKE.exe $@ --fsiargs build.fsx
-else
-  # use mono
-  mono .paket/paket.exe restore
-  exit_code=$?
-  if [ $exit_code -ne 0 ]; then
-  	exit $exit_code
-  fi
-  mono packages/build/FAKE/tools/FAKE.exe $@ --fsiargs -d:MONO build.fsx
+if [ ! -f .fake/fake ]; then
+    dotnet tool install --tool-path ".fake" fake-cli --add-source https://api.nuget.org/v3/index.json
 fi
+mono .paket/paket.exe restore
+.fake/fake run build.fsx $@
