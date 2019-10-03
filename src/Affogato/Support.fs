@@ -10,8 +10,21 @@ let inline uncurry f (x, y) = f x y
 let inline flip f x y = f y x
 let inline devidedBy q p = p / q
 
+type FunctorBuiltin = FunctorBuiltin
+with
+  static member inline Map(x, f) = List.map f x
+  static member inline Map(x, f) = Array.map f x
+  static member inline Map(x, f) = Array2D.map f x
+  static member inline Map(x, f) = Array3D.map f x
+  static member inline Map(x, f) = Map.map f x
+  static member inline Map(x, f) = Set.map f x
+  // static member inline Map(x: seq<_>, f) = Seq.map f x
+
+
 let inline map (f: ^a -> ^b) (x: ^``Functor<'a>``) : ^``Functor<'b>`` =
-  (^``Functor<'a>``: (static member Map: _*_->_) x, f)
+  let inline map (_: ^Builtin) f (x: ^``Functor<'a>``) =
+    ( (^``Functor<'a>`` or ^Builtin): (static member Map: _*_->_) x, f )
+  map FunctorBuiltin f x
 
 let inline (|>>) (x: ^``Functor<'a>``) (f: ^a -> ^b) : ^``Functor<'b>`` = map f x
 
@@ -28,10 +41,21 @@ let inline isInfinity x = System.Double.IsInfinity (float x)
 
 let inline isInvalid x = isNan x || isInfinity x
 
+
 [<AutoOpen>]
 module Foldable =
+  type FoldableBuiltin = FoldableBuiltin
+  with
+    static member inline ToSeq(x) = List.toSeq x
+    static member inline ToSeq(x) = Array.toSeq x
+    static member inline ToSeq(x) = Map.toSeq x
+    static member inline ToSeq(x) = Set.toSeq x
+    static member inline ToSeq(x: seq<_>) = x
+    
   let inline toSeq (x: ^``Foldable<'a>``) =
-    (^``Foldable<'a>`` : (static member ToSeq:_->seq<_>) x)
+    let inline toSeq (_: ^Builtin) (x: ^``Foldable<'a>``) =
+      ((^``Foldable<'a>`` or ^Builtin): (static member ToSeq:_->seq<_>) x)
+    toSeq FoldableBuiltin x
 
   let inline toArray (x: ^``Foldable<'a>``) = x |> toSeq |> Seq.toArray
   let inline toList (x: ^``Foldable<'a>``) = x |> toSeq |> Seq.toList

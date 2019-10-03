@@ -157,7 +157,7 @@ type Vector = Vector with
   static member inline VectorImpl(_: 'a Vector3) = Vector
   static member inline VectorImpl(_: 'a Vector4) = Vector
 
-#nowarn "0064"
+// #nowarn "0064"
 
 [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Vector =
