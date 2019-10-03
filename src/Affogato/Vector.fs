@@ -171,6 +171,14 @@ module Vector =
 
     f Vector v |> ignore
 
+  let inline map (f: 'a -> 'b) (x: ^``Vector<'a>``): ^``Vector<'b>`` =
+    constraint' x
+    (^``Vector<'a>``: (static member Map: _*_->_) x, f)
+
+  let inline toSeq (x: ^``Vector<'a>``): seq<'a> =
+    constraint' x
+    (^``Vector<'a>``: (static member ToSeq: _->_) x)
+
   let inline dot (a : ^``Vector<'a>``) (b : ^``Vector<'a>``) =
     constraint' a
     (^``Vector<'a>`` : (static member inline Dot :_*_->_) a, b)
