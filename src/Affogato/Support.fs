@@ -1,6 +1,8 @@
 [<AutoOpen>]
 module Affogato.Support
 
+#nowarn "0064"
+
 let inline implicit (x: ^a) : ^b = ((^a or ^b) : (static member op_Implicit : ^a -> ^b) x)
 
 let inline zero< ^a when ^a: (static member Zero: ^a) > = LanguagePrimitives.GenericZero< ^a >

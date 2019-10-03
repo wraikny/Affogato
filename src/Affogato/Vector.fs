@@ -1,5 +1,7 @@
 namespace Affogato
 
+#nowarn "0064"
+
 [<Struct>]
 type Vector2< ^a
     when ^a: (static member Zero: ^a)
