@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Product>Affogato</Product>
+    <Product>Affogato.Advanced</Product>
     <PackageId>Affogato.Advanced</PackageId>
     <Description>A library of F# advanced algorithms for game programming</Description>
     <PackageProjectUrl>https://github.com/wraikny/Affogato</PackageProjectUrl>

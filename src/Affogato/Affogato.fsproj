@@ -3,7 +3,7 @@
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Product>Affogato</Product>
-    <PackageId>Affogato.Advanced</PackageId>
+    <PackageId>Affogato</PackageId>
     <Description>A library of F# generic math types for game programming</Description>
     <PackageProjectUrl>https://github.com/wraikny/Affogato</PackageProjectUrl>
   </PropertyGroup>
