@@ -1,5 +1,7 @@
 module Affogato.Test.Easing
+
 open Affogato
+open Affogato.Helper
 open Expecto
 
 [<Tests>]

@@ -1,5 +1,7 @@
 namespace Affogato
 
+open Affogato.Helper
+
 #nowarn "0064"
 
 [<Struct>]

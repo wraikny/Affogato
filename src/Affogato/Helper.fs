@@ -1,5 +1,5 @@
-[<AutoOpen>]
-module Affogato.Support
+
+module Affogato.Helper
 
 #nowarn "0064"
 
