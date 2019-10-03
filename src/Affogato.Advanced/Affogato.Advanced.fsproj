@@ -2,9 +2,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\output\Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\output\Release</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Affogato/Affogato.fsproj">
-      <Name>Affogato.fsproj</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

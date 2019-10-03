@@ -40,6 +40,7 @@ jobs:
         # Work around https://github.com/actions/setup-dotnet/issues/29
         DOTNET_ROOT: ${{ runner.tool_cache }}/dncs/${{ matrix.dotnet }}/x64
         CI: true
+
     - name: Build
       if: runner.os == 'Windows'
       run: ./build.cmd
@@ -47,5 +48,16 @@ jobs:
         # Work around https://github.com/actions/setup-dotnet/issues/29
         DOTNET_ROOT: ${{ runner.tool_cache }}/dncs/${{ matrix.dotnet }}/x64
         CI: true
+
     - name: Test
       run: dotnet run --project tests/Affogato.Test
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        run: mkdir dist
+        run: cp output/Release/netstandard2.0/*.dll dist/.
+        files: "dist/**"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
