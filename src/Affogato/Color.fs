@@ -1,5 +1,7 @@
 module Affogato.Color
 
+open Affogato.Helper
+
 /// 0.0f ~ 1.0f
 let inline HSV2RGBFloat32 (hsv : float32 Vector3) : float32 Vector3 =
   let { Vector3.x=h; y=s; z=v } = hsv

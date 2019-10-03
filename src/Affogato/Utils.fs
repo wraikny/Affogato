@@ -1,5 +1,7 @@
 namespace Affogato
 
+open Affogato.Helper
+
 module Angle =
   let [<Literal>] PI = 3.14159265f
   let inline degreeToRadian degree =

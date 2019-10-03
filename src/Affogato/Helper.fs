@@ -1,5 +1,5 @@
-[<AutoOpen>]
-module Affogato.Support
+
+module Affogato.Helper
 
 #nowarn "0064"
 
@@ -20,6 +20,8 @@ with
   static member inline Map(x, f) = Array3D.map f x
   static member inline Map(x, f) = Map.map f x
   static member inline Map(x, f) = Set.map f x
+  static member inline Map(x, f) = Option.map f x
+  static member inline Map(x, f) = Result.map f x
   // static member inline Map(x: seq<_>, f) = Seq.map f x
 
 
@@ -66,3 +68,6 @@ module Foldable =
 
   let inline exist f (x: ^``Foldable<'a>``) = x |> toSeq |> Seq.exists f
   let inline forall f (x: ^``Foldable<'a>``) = x |> toSeq |> Seq.forall f
+
+module String =
+  let inline toLower (s: string) = s.ToLower()

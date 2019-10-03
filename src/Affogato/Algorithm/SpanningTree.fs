@@ -3,7 +3,7 @@ namespace Affogato.Algorithm
 open System.Collections.Generic
 open Affogato
 open Affogato.Graph
-
+open Affogato.Helper
 
 type SpanningTree =
   static member inline Kruskal nodeCount (edges : seq<Edge<_,_>>): _ list =

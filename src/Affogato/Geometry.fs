@@ -1,5 +1,7 @@
 namespace Affogato
 
+open Affogato.Helper
+
 [<Struct>]
 type Line< ^v
     when ^v: (static member Zero: ^v)

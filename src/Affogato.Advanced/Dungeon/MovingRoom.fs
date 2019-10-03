@@ -1,6 +1,7 @@
 namespace Affogato.Advanced.Dungeon
 
 open Affogato
+open Affogato.Helper
 open System.Collections.Generic
 open System.Linq
 

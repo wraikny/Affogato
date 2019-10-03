@@ -4,6 +4,7 @@ open System.Collections
 open System.Collections.Generic
 open System.Linq
 open Affogato
+open Affogato.Helper
 
 type HashMap<'Key, 'T when 'Key : equality> private(dict : IDictionary<'Key, 'T>) =
   let count = lazy(dict.Count)

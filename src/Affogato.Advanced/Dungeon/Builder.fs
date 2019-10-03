@@ -1,6 +1,7 @@
 namespace Affogato.Advanced.Dungeon
 
 open Affogato
+open Affogato.Helper
 open Affogato.Graph
 open Affogato.Algorithm
 open Affogato.Collections

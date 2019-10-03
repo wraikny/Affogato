@@ -1,6 +1,7 @@
 namespace Affogato.Graph
 
 open Affogato
+open Affogato.Helper
 
 [<Struct; CustomEquality; NoComparison>]
 type Node<'a> = {

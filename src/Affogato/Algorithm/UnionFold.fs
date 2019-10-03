@@ -1,6 +1,8 @@
 namespace Affogato.Algorithm
 
+open Affogato.Helper
 open Affogato.Graph
+open Affogato.Helper
 
 type UnionFold(num) =
   let par = [| for i in 0..num -> i |]
