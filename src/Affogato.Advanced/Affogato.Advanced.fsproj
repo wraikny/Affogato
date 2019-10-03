@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Product>Affogato</Product>
+    <PackageId>Affogato.Advanced</PackageId>
+    <Description>A library of F# advanced algorithms for game programming</Description>
+    <PackageProjectUrl>https://github.com/wraikny/Affogato</PackageProjectUrl>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\output\Debug</OutputPath>
@@ -13,6 +17,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Dungeon/Model.fs" />
     <Compile Include="Dungeon/MovingRoom.fs" />
     <Compile Include="Dungeon/Builder.fs" />
