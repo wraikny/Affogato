@@ -392,5 +392,4 @@ paket-files/
 
 .ionide/
 .packages/
-.paket/paket.exe
 src/Affogato/VectorExt.fs
