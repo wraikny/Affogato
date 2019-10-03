@@ -134,11 +134,10 @@ module Easing =
       | Mix(e0, e1, a) ->
         (calculateF e0 t) * (1.0f - a) +  (calculateF e1 t) * a
 
-  let inline calculate easing (frame: ^a) (current: ^a) : ^a =
+  let inline calculate easing (frame: ^a) (current: ^a) : float32 =
     let t = (float32 current) / (float32 frame)
 
-    (calculateF easing t) * float32 frame
-    |> implicit
+    (calculateF easing t)
 
 
   //let inline interpolateVector easing (frame) (current) (startPoint : 'Vec) (endPoint : 'Vec) : 'Vec =
