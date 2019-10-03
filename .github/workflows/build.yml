@@ -47,7 +47,7 @@ jobs:
 
     - name: Package
       if: startsWith(github.ref, 'refs/tags/')
-      run: ./dist.sh
+      run: ./fake.sh build -t Zip
 
     - name: Release
       uses: softprops/action-gh-release@v1
@@ -56,6 +56,10 @@ jobs:
         files: "./dist/**"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Package for Nuget
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: ./fake.sh build -t Pack
 
     - name: Nuget
       if: startsWith(github.ref, 'refs/tags/v')

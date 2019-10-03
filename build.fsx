@@ -9,7 +9,8 @@
     nuget Fake.DotNet.NuGet
     nuget Fake.DotNet.MsBuild
     nuget Fake.Tools.Git
-	nuget Fake.DotNet.Paket //"
+    nuget Fake.IO.Zip
+	  nuget Fake.DotNet.Paket //"
 
 #if !FAKE
 
@@ -78,6 +79,22 @@ Target.create "Build" (fun _ ->
   Trace.log "Build finished"
 )
 
+Target.create "Zip" (fun _ ->
+  Shell.cleanDir @"./dist"
+
+  let files =
+    !! "output/Release/netstandard2.0/*.dll"
+    ++ "output/Release/netstandard2.0/*.pdb"
+  files
+  |> Shell.copy "./dist"
+
+  let zipFileName =
+    sprintf @"./dist/Affogato_v%s.zip" release.AssemblyVersion
+
+  files
+  |> Zip.zip "./" zipFileName
+)
+
 Target.create "Pack" (fun _ ->
   !! "src/**/*.*proj"
   |> Seq.iter (DotNet.pack (fun opt ->
@@ -105,5 +122,9 @@ Target.create "All" ignore
   ==> "Generate"
   ==> "Build"
   ==> "All"
+
+if not <| System.IO.Directory.Exists(@"./output/Release") then
+  "Build" ==> "Pack" |> ignore
+  "Build" ==> "Zip" |> ignore
 
 Target.runOrDefault "All"
