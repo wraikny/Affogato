@@ -63,7 +63,7 @@ Target.create "Generate" (fun _ ->
 )
 
 Target.create "Clean" (fun _ ->
-  !! "src/**/bin"
+  !! "output"
   ++ "src/**/obj"
   ++ "tests/**/bin"
   ++ "tests/**/obj"
@@ -104,7 +104,6 @@ Target.create "All" ignore
   ==> "AssemblyInfo"
   ==> "Generate"
   ==> "Build"
-  ==> "Pack"
   ==> "All"
 
 Target.runOrDefault "All"
