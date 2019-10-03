@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Affogato/Affogato.fsproj">
+      <Name>Affogato.fsproj</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dungeon/Model.fs" />
+    <Compile Include="Dungeon/MovingRoom.fs" />
+    <Compile Include="Dungeon/Builder.fs" />
+  </ItemGroup>
+</Project>

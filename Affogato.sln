@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F1689C86
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Affogato.Test", "tests\Affogato.Test\Affogato.Test.fsproj", "{ED7749B4-7458-40FE-A4AC-E132EADD5707}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{58A41246-714E-4BB4-A1F7-7E1FF1C86728}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Affogato.Advanced", "src\Affogato.Advanced\Affogato.Advanced.fsproj", "{ABE6FADA-C4AB-4560-87E0-8C2A4C4D5054}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +25,14 @@ Global
 		{ED7749B4-7458-40FE-A4AC-E132EADD5707}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED7749B4-7458-40FE-A4AC-E132EADD5707}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED7749B4-7458-40FE-A4AC-E132EADD5707}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE6FADA-C4AB-4560-87E0-8C2A4C4D5054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE6FADA-C4AB-4560-87E0-8C2A4C4D5054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE6FADA-C4AB-4560-87E0-8C2A4C4D5054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE6FADA-C4AB-4560-87E0-8C2A4C4D5054}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ED7749B4-7458-40FE-A4AC-E132EADD5707} = {F1689C86-DA8B-4C0D-95AE-11DBE76BDEA7}
+		{ABE6FADA-C4AB-4560-87E0-8C2A4C4D5054} = {58A41246-714E-4BB4-A1F7-7E1FF1C86728}
+		{5EAD65BD-74D2-4BE2-A03A-377F861FC526} = {58A41246-714E-4BB4-A1F7-7E1FF1C86728}
 	EndGlobalSection
 EndGlobal
