@@ -5,9 +5,7 @@ open Expecto
 [<Tests>]
 let easingTests =
   testList "Easing" [
-    testProperty "Run" <| fun e t ->
-      if isInvalid t then true
-      else
-        let x = Easing.calculateF e t
-        true
+    testProperty "Valid" <| fun e t ->
+      isInvalid t
+      || Easing.calculateF e t |> isInvalid |> not
   ]
