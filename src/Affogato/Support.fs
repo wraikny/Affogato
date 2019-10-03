@@ -6,6 +6,7 @@ let inline implicit (x: ^a) : ^b = ((^a or ^b) : (static member op_Implicit : ^a
 let inline zero< ^a when ^a: (static member Zero: ^a) > = LanguagePrimitives.GenericZero< ^a >
 let inline one< ^a when ^a: (static member One: ^a) > = LanguagePrimitives.GenericOne< ^a >
 
+let inline uncurry f (x, y) = f x y
 let inline flip f x y = f y x
 let inline devidedBy q p = p / q
 

@@ -30,7 +30,9 @@ module Delaunay2 =
   open System.Linq
 
 
-  let getTriangles (points : Node<float32 Vector2> list) : HashSet<TriangleEdge> =
+  let getTriangles (points : seq<Node<float32 Vector2>>) : HashSet<TriangleEdge> =
+    let points = Seq.toList points
+
     let minX, minY, maxX, maxY =
       let rec f (ps : Node<float32 Vector2> list) result =
         ps |> function
@@ -116,7 +118,7 @@ module Delaunay2 =
     trianglesSet
 
 
-  let getEdges points : Edge<float32 Vector2, float32> list =
+  let getEdges points : Edge<float32 Vector2, float32> [] =
     let triangles = getTriangles points
 
     let edges = new List<Edge<float32 Vector2, float32>>()
@@ -129,4 +131,4 @@ module Delaunay2 =
       addEdge e2
       addEdge e3
 
-    [for e in edges -> e ]
+    [| for e in edges -> e |]

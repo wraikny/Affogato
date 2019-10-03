@@ -16,6 +16,10 @@ type Line< ^v
   static member inline Return k = Line< ^v >.Init(k, k)
   static member inline Zero: Line< ^v > = pure' zero
   static member inline One: Line< ^v > = pure' one
+  static member inline Map(x, f) = {
+    startPoint = f x.startPoint
+    endPoint = f x.endPoint
+  }
 
 
 type Line2< ^a
@@ -69,6 +73,10 @@ type Rectangle< ^v
   static member inline Return k = Rectangle< ^v >.Init(k,k)
   static member inline Zero: ^v Rectangle = pure' zero
   static member inline One: ^v Rectangle = pure' one
+  static member inline Map(x, f) = {
+    position = f x.position
+    size = f x.size
+  }
 
 
 type Rectangle2< ^a
@@ -144,7 +152,6 @@ type Sphere< ^a, ^v
     and  ^a: struct
     and  ^v: (static member Zero: ^v)
     and  ^v: (static member One: ^v)
-    and  ^v: (static member Return: ^a -> ^v)
     and  ^v: struct
   > = {
     radius : ^a
@@ -155,9 +162,16 @@ type Sphere< ^a, ^v
     radius = radius
     center = center
   }
-  static member inline Return k = Sphere< ^a, ^v >.Init(pure' k, k)
+  static member inline Return (k: ^t) = {
+    radius = k
+    center = pure' k
+  }
   static member inline Zero: Sphere< ^a, ^v > = Sphere< ^a, ^v >.Init(zero, zero)
   static member inline One: Sphere< ^a, ^v > = Sphere< ^a, ^v >.Init(one, one)
+  static member inline Map(x, f) = {
+    radius = f x.radius
+    center = map f x.center
+  }
 
 type Sphere2< ^a
     when ^a: (static member Zero: ^a)
@@ -219,6 +233,11 @@ type Triangle< ^v
   static member inline Return k = Triangle< ^v >.Init(k,k,k)
   static member inline Zero: ^v Triangle = pure' zero
   static member inline One: ^v Triangle = pure' one
+  static member inline Map(x, f) = {
+    p1 = f x.p1
+    p2 = f x.p2
+    p3 = f x.p3
+  }
 
 
 type Triangle2< ^a

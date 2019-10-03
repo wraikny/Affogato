@@ -5,7 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../src/Affogato/Affogato.fsproj">
-      <Name>Affogato.fsproj</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
