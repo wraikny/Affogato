@@ -18,6 +18,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ matrix.dotnet }}
+
     - name: Build
       if: runner.os != 'Windows'
       run: ./build.sh
@@ -26,22 +27,25 @@ jobs:
         DOTNET_ROOT: ${{ runner.tool_cache }}/dncs/${{ matrix.dotnet }}/x64
         CI: true
 
-    - name: Build
-      if: runner.os == 'Windows'
-      run: ./build.cmd
-      env:
-        # Work around https://github.com/actions/setup-dotnet/issues/29
-        DOTNET_ROOT: ${{ runner.tool_cache }}/dncs/${{ matrix.dotnet }}/x64
-        CI: true
+    # - name: Build (Windows)
+    #   if: runner.os == 'Windows'
+    #   run: ./build.cmd
+    #   env:
+    #     # Work around https://github.com/actions/setup-dotnet/issues/29
+    #     DOTNET_ROOT: ${{ runner.tool_cache }}/dncs/${{ matrix.dotnet }}/x64
+    #     CI: true
 
     - name: Test
       run: dotnet run --project tests/Affogato.Test
+
+    - name: Package
+      if: startsWith(github.ref, 'refs/tags/')
+      run: ./dist.sh
 
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        run: ./dist.sh
         files: "./dist/**"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
