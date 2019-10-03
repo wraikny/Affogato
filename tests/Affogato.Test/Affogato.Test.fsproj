@@ -4,12 +4,15 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/Affogato/Affogato.fsproj">
+    <ProjectReference Include="../../src/Affogato/Affogato.fsproj" />
+    <ProjectReference Include="../../src/Affogato.Advanced/Affogato.Advanced.fsproj">
+      <Name>Affogato.Advanced.fsproj</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Vector.fs" />
     <Compile Include="Easing.fs" />
+    <Compile Include="Dungeon.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
