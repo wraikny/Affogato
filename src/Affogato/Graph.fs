@@ -25,7 +25,7 @@ module Node =
   let inline init label value = { label=label; value=value }
 
 
-[<CustomEquality; NoComparison>]
+[<NoComparison>]
 type Edge< 'a, 'w
   when 'w: equality
   > = {
@@ -38,19 +38,6 @@ type Edge< 'a, 'w
       node1 = edge.node1 |>> f
       node2 = edge.node2 |>> f
     }
-
-  override this.Equals(other) =
-    match other with
-    | :? Edge<'a,'w> as other ->
-      (this.node1.label = other.node1.label)
-      && (this.node2.label = other.node2.label)
-      && (this.weight = other.weight)
-    | _ -> false
-
-  override this.GetHashCode() =
-    this.node1.GetHashCode()
-    ^^^ this.node2.GetHashCode()
-    ^^^ this.weight.GetHashCode()
 
 
 [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]

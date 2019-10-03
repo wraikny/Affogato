@@ -32,6 +32,8 @@ type Builder = {
 
   /// Generating Corridors Width
   corridorWidth : int
+
+  displayLog: bool
 }
 
 
@@ -52,38 +54,30 @@ module private WithRandom =
     builder.random.NextDouble() |> float32
 
   let roomRectangles (builder : WithRandom) =
-      let getRandomPointInCircle () : int Vector2 =
-        let w, h = builder.parameter.roomGeneratedRange
+    let getRandomPointInCircle () : int Vector2 =
+      let w, h = builder.parameter.roomGeneratedRange
 
-        let t = 2.0f * Angle.PI * getRandomValue(builder)
-        let u = getRandomValue(builder) * getRandomValue(builder)
-        let r = if u > 1.0f then 2.0f - u else u
+      let t = 2.0f * Angle.PI * getRandomValue(builder)
+      let u = getRandomValue(builder) * getRandomValue(builder)
+      let r = if u > 1.0f then 2.0f - u else u
 
-        (w * r * cos(t), h * r * sin(t))
-        |> uncurry Vector2.init
-        |>> int
+      (w * r * cos(t), h * r * sin(t))
+      |> uncurry Vector2.init
+      |>> int
 
-      [ for _ in 1..builder.parameter.roomCount ->
-        let pos = getRandomPointInCircle()
+    [ for _ in 1..builder.parameter.roomCount ->
+      let pos = getRandomPointInCircle()
 
-        let size =
-          let min =
-            builder.parameter.minRoomSize
-            |> uncurry Vector2.init
-            |>> float32
+      let minX, minY = builder.parameter.minRoomSize
+      let maxX, maxY = builder.parameter.maxRoomSize
+      
+      let size =
+        Vector2.init
+          ( builder.random.Next(minX, maxX + 1) )
+          ( builder.random.Next(minY, maxY + 1) )
 
-          let max =
-            builder.parameter.maxRoomSize
-            |> uncurry Vector2.init
-            |>> float32
-
-          let rand = builder |> getRandomValue
-
-          (min + (max - min) .* rand)
-          |>> int
-
-        Rectangle.init (pos - size ./ 2) size
-      ]
+      Rectangle.init (pos - size ./ 2) size
+    ]
 
 
   let getLargeRoomEdges (largeRooms : seq<int * int Rectangle2>) (withRandom : WithRandom) : Edge<unit, float32> [] =
@@ -131,172 +125,186 @@ module private WithRandom =
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Builder =
-    let private distributeRooms (rooms : seq<int Rectangle2>) (rate : float32) =
-      let rooms = rooms |> Seq.toArray
-      let threshold =
-        let len = rooms |> Seq.length |> float32
-        let sum : float32 Vector2 =
-          rooms
-          |> Seq.sumBy ( Rectangle.size >> (map float32) )
-        sum .* (rate / len)
+  let private distributeRooms (rooms : int Rectangle2 []) (rate : float32) =
+    let threshold =
+      let len = rooms.Length |> float32
+      let sum : _ Vector2 =
+        rooms
+        |>> Rectangle.size
+        |> Seq.sum
+        |>> float32
+      sum .* rate ./ len
+      |>> int
+    // printfn "threshold: %A" threshold
 
-      rooms
-      |> Array.partition(fun rect ->
-        let size = rect.size |>> float32
-        size.x >= threshold.x && size.y > threshold.y
-      )
+    rooms
+    |> Array.partition(fun rect ->
+      let size = rect.size //|>> float32
+      size.x >= threshold.x && size.y >= threshold.y
+    )
 
-    open System.Collections.Generic
+  open System.Collections.Generic
 
-    let private moveRooms (rooms : int Rectangle2 list) movingRate : int Rectangle2 [] =
-      let roomsList = List<MovingRoom>()
+  let private moveRooms (rooms : int Rectangle2 list) movingRate : int Rectangle2 [] =
+    let roomsList = List<MovingRoom>()
 
-      for r in rooms do
-        let movingRoom = MovingRoom(r |>> map float32, movingRate, roomsList)
-        roomsList.Add(movingRoom)
+    for r in rooms do
+      let movingRoom = MovingRoom(r |>> map float32, movingRate, roomsList)
+      roomsList.Add(movingRoom)
 
-      let mutable count = 1.0f
-      while roomsList.Exists(fun r -> r.IsMoving) do
-        count <- count + 1.0f
+    let mutable count = 1.0f
+    while roomsList.Exists(fun r -> r.IsMoving) do
+      count <- count + 1.0f
 
-        for r in roomsList do r.Update(count)
-
-
-      [| for r in roomsList -> r.RectI |]
-
-
-    let private generateCorridors (width) (rect1 : int Rectangle2, rect2 : int Rectangle2) : int Rectangle2 [] =
-      let center1, center2 = Rectangle.centerPosition rect1, Rectangle.centerPosition rect2
-      let middle = (center1 + center2) ./ 2
-
-      let lurd1 = rect1 |> Rectangle.lurd
-      let lurd2 = rect2 |> Rectangle.lurd
-
-      let isCollidedX = Rectangle.isCollidedAxis Vector.x lurd1 lurd2
-      let isCollidedY = Rectangle.isCollidedAxis Vector.y lurd1 lurd2
-
-      let manhattanDist = (center1 - center2) |>> abs
-
-      let sizeDict =
-        Vector2.init
-          ( Vector2.init manhattanDist.x width )
-          ( Vector2.init width manhattanDist.y )
-
-      let createCorridorAt size pos =
-        Rectangle.init (pos - size ./ 2) size
+      for r in roomsList do r.Update(count)
 
 
-      if isCollidedX && isCollidedY then
-        [||]
-      elif isCollidedX then
-        [| createCorridorAt sizeDict.y middle |]
-      elif isCollidedY then
-        [| createCorridorAt sizeDict.x middle |]
-      else
-        [|let f = createCorridorAt
-          for center in [center1; center2 ] do
-            yield f (sizeDict.x + Vector2.init width 0) ({ middle with y = center.y})
-            yield f (sizeDict.y + Vector2.init 0 width) ({ middle with x = center.x})
-        |]
+    [| for r in roomsList -> r.RectI |]
 
 
-    let private spacesToHashMap =
-      Seq.map(fun (r : Space) ->
-        r.id.Value, r
-      )
-      >> HashMap.ofSeq
+  let private generateCorridors (width) (rect1 : int Rectangle2, rect2 : int Rectangle2) : int Rectangle2 [] =
+    let center1, center2 = Rectangle.centerPosition rect1, Rectangle.centerPosition rect2
+    let middle = (center1 + center2) ./ 2
+
+    let lurd1 = rect1 |> Rectangle.lurd
+    let lurd2 = rect2 |> Rectangle.lurd
+
+    let isCollidedX = Rectangle.isCollidedAxis Vector.x lurd1 lurd2
+    let isCollidedY = Rectangle.isCollidedAxis Vector.y lurd1 lurd2
+
+    let manhattanDist = (center1 - center2) |>> abs
+
+    let sizeDict =
+      Vector2.init
+        ( Vector2.init manhattanDist.x width )
+        ( Vector2.init width manhattanDist.y )
+
+    let createCorridorAt size pos =
+      Rectangle.init (pos - size ./ 2) size
 
 
-    [<CompiledName "Generate">]
-    let generate (builder : Builder) : Model =
-      let withRandom = builder |> WithRandom.init
-
-      let roomRectangles = withRandom |> WithRandom.roomRectangles
-
-      let movedRooms = moveRooms roomRectangles builder.roomMoveRate
-
-      let largeRoomRectangles, smallRoomRectangles =
-        distributeRooms movedRooms builder.roomMeanThreshold
-
-      let largeRoomRectanglesIndexed = largeRoomRectangles |> Array.indexed
-
-
-      let largeRooms, smallRooms =
-        let inline toRoom kind = Array.map <| fun (i, r) -> Space.init (kind i) r
-
-        largeRoomRectanglesIndexed |> toRoom SpaceID.Large
-        , smallRoomRectangles |> Array.indexed |> toRoom SpaceID.Small
+    if isCollidedX && isCollidedY then
+      [||]
+    elif isCollidedX then
+      [| createCorridorAt sizeDict.y middle |]
+    elif isCollidedY then
+      [| createCorridorAt sizeDict.x middle |]
+    else
+      [|let f = createCorridorAt
+        for center in [center1; center2 ] do
+          yield f (sizeDict.x + Vector2.init width 0) ({ middle with y = center.y})
+          yield f (sizeDict.y + Vector2.init 0 width) ({ middle with x = center.x})
+      |]
 
 
-      let largeRoomsHashMap = spacesToHashMap largeRooms
+  let private spacesToHashMap x =
+    x
+    |> Seq.map(fun (r : Space) ->
+      r.id.Value, r
+    )
+    |> HashMap.ofSeq
 
 
-      let largeRoomsEdges =
-        withRandom
-        |> WithRandom.getLargeRoomEdges largeRoomRectanglesIndexed
+  [<CompiledName "Generate">]
+  let generate (builder : Builder) : Model =
+    let inline debugPrint s x =
+      if builder.displayLog then
+        printfn "[%s]\n%A" s x
+      x
+
+    let withRandom = builder |> WithRandom.init
+
+    let roomRectangles = withRandom |> WithRandom.roomRectangles |> debugPrint "roomRectangles"
+
+    let movedRooms = moveRooms roomRectangles builder.roomMoveRate |> debugPrint "movedRooms"
+
+    let largeRoomRectangles, smallRoomRectangles =
+      distributeRooms movedRooms builder.roomMeanThreshold |> debugPrint "largeRoomRectangles, smallRoomRectangles"
+
+    let largeRoomRectanglesIndexed = largeRoomRectangles |> Array.indexed
 
 
-      let corridorRectangles =
-        [|
-          for e in largeRoomsEdges do
-            let room1 =
-              largeRoomsHashMap
-              |> HashMap.find e.node1.label
+    let largeRooms, smallRooms =
+      let inline toRoom kind = Array.map <| fun (i, r) -> Space.init (kind i) r
 
-            let room2 =
-              largeRoomsHashMap
-              |> HashMap.find e.node2.label
+      largeRoomRectanglesIndexed |> toRoom SpaceID.Large|> debugPrint "largeRooms"
+      , smallRoomRectangles |> Array.indexed |> toRoom SpaceID.Small|> debugPrint "smallRooms"
 
-            yield!
-              generateCorridors builder.corridorWidth (room1.rect, room2.rect)
-        |]
 
-      let corridors =
+    let largeRoomsHashMap = spacesToHashMap largeRooms |> debugPrint "largeRoomsHashMap"
+
+
+    let largeRoomsEdges =
+      withRandom
+      |> WithRandom.getLargeRoomEdges largeRoomRectanglesIndexed
+      |> debugPrint "largeRoomsEdges"
+
+    let corridorRectangles =
+      [|
+        for e in largeRoomsEdges do
+          let room1 =
+            largeRoomsHashMap
+            |> HashMap.find e.node1.label
+
+          let room2 =
+            largeRoomsHashMap
+            |> HashMap.find e.node2.label
+
+          yield!
+            generateCorridors builder.corridorWidth (room1.rect, room2.rect)
+      |]
+      |> debugPrint "corridorRectangles"
+
+    let corridors =
+      corridorRectangles
+      |> Array.mapi (fun i r ->
+        Space.init (SpaceID.Corridor i) r)
+
+
+    let collidedSmallRooms =
+      smallRooms
+      |> Array.filter(fun room ->
         corridorRectangles
-        |> Array.mapi (fun i r ->
-          Space.init (SpaceID.Corridor i) r)
+        |> Seq.exists(fun cr ->
+            room.rect
+            |> Rectangle.isCollided2 cr
+        )
+      )
+      |> debugPrint "collidedSmallRooms"
+     
 
+    let cellsMap =
+      let inline getCells (spaces : seq<Space>) =
+          Seq.collect Space.cells spaces
 
-      let collidedSmallRooms =
-        smallRooms
-         |> Array.filter(fun room ->
-           corridorRectangles
-           |> Seq.exists(fun cr ->
-               room.rect
-               |> Rectangle.isCollided2 cr
-           )
-         )
+      seq {
+        let cellsDict = new Dictionary<int Vector2, SpaceID>()
 
-      let cellsMap =
-        let inline getCells (spaces : seq<Space>) =
-            Seq.collect Space.cells spaces
+        for (cdn, id) in (getCells largeRooms) do
+          cellsDict.[cdn] <- id
 
-        seq {
-          let cellsDict = new Dictionary<int Vector2, SpaceID>()
-
-          for (cdn, id) in (getCells largeRooms) do
+        for (cdn, id) in (getCells collidedSmallRooms) do
+          if not <| cellsDict.ContainsKey(cdn) then
             cellsDict.[cdn] <- id
 
-          for (cdn, id) in (getCells collidedSmallRooms) do
-            if not <| cellsDict.ContainsKey(cdn) then
-              cellsDict.[cdn] <- id
+        for (cdn, id) in (getCells corridors) do
+          if not <| cellsDict.ContainsKey(cdn) then
+            cellsDict.[cdn] <- id
 
-          for (cdn, id) in (getCells corridors) do
-            if not <| cellsDict.ContainsKey(cdn) then
-              cellsDict.[cdn] <- id
-
-          for item in cellsDict ->
-            (item.Key, item.Value)
-        }
-        |> HashMap.ofSeq
-
-
-      {
-        largeRooms = largeRoomsHashMap
-        smallRooms = collidedSmallRooms |> spacesToHashMap
-        corridors = corridors |> spacesToHashMap
-
-        largeRoomEdges = largeRoomsEdges
-
-        cells = cellsMap
+        for item in cellsDict ->
+          (item.Key, item.Value)
       }
+      |> HashMap.ofSeq
+      |> debugPrint "cellsMap"
+
+
+    {
+      largeRooms = largeRoomsHashMap
+      smallRooms = collidedSmallRooms |> spacesToHashMap
+      corridors = corridors |> spacesToHashMap
+
+      largeRoomEdges = largeRoomsEdges
+
+      cells = cellsMap
+    }
+    |> debugPrint "Generated Model"

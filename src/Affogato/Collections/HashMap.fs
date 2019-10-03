@@ -5,14 +5,14 @@ open System.Collections.Generic
 open System.Linq
 open Affogato
 
-type HashMap<'Key, 'T when 'Key : equality> private(dict : IReadOnlyDictionary<'Key, 'T>) =
+type HashMap<'Key, 'T when 'Key : equality> private(dict : IDictionary<'Key, 'T>) =
   let count = lazy(dict.Count)
   
   member val internal Dict = dict with get
 
   static member internal Empty = new HashMap<'Key, 'T>(new Dictionary<_, _>())
 
-  static member inline internal Create(dict : #IDictionary<_, _>) =
+  static member inline internal Create(dict : IDictionary<_, _>) =
       new HashMap<'Key, 'T>(new Dictionary<_, _>(dict :> IDictionary<_, _>))
 
   static member inline internal CreateWithoutNew(dict) =
@@ -54,15 +54,7 @@ module HashMap =
     hashMap.Dict.Any(fun item -> predicate item.Key item.Value )
 
   let ofSeq seq =
-    let dict = new Dictionary<'Key, 'T>()
-    for (key, value) in seq do
-
-      if dict.ContainsKey(key) then
-        dict.[key] <- value
-      else
-        dict.Add(key, value)
-
-    HashMap.CreateWithoutNew(dict)
+    HashMap.CreateWithoutNew(dict seq)
 
   let inline ofList list = list |> toSeq |> ofSeq
 
