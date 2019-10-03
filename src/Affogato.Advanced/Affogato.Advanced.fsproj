@@ -17,4 +17,5 @@
     <Compile Include="Dungeon/MovingRoom.fs" />
     <Compile Include="Dungeon/Builder.fs" />
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

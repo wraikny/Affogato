@@ -4,7 +4,7 @@ source https://www.nuget.org/api/v2
 
 nuget Expecto
 nuget Expecto.FsCheck
-nuget FSharp.Core
+nuget FSharp.Core >= 4.7.0
 // [ FAKE GROUP ]
 group Build
     storage none
