@@ -106,11 +106,6 @@ module Rectangle =
   let inline position r = r.position
   let inline size r = r.size
 
-  let inline left r = r.position.x
-  let inline right r = r.position.x + r.size.x
-  let inline up r = r.position.y
-  let inline down r = r.position.y + r.size.y
-
   let inline diagonalPosition (r: '``Vector<'a>`` Rectangle) : '``Vector<'a>`` =
     Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
     r.position + r.size
@@ -146,6 +141,14 @@ module Rectangle =
       not(axis bRD < axis aLU || axis aRD < axis bLU)
 
     (f Vector.x) && (f Vector.y)
+
+
+module Rectangle2 =
+  let inline left (r: ^a Rectangle2) = r.position.x
+  let inline right (r: ^a Rectangle2) = r.position.x + r.size.x
+  let inline up (r: ^a Rectangle2) = r.position.y
+  let inline down (r: ^a Rectangle2) = r.position.y + r.size.y
+
 
 [<Struct>]
 type Sphere< ^a, ^v
