@@ -1,2 +1,2 @@
-.paket/paket.exe restore
+.paket\paket.exe restore
 .\fake.cmd run build.fsx %*
