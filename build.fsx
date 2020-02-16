@@ -1,17 +1,3 @@
-#r "paket:
-    storage: none
-    source https://api.nuget.org/v3/index.json
-    nuget Fake.Core.Target
-    nuget Fake.Core.ReleaseNotes
-    nuget Fake.DotNet.AssemblyInfoFile
-    nuget Fake.DotNet.Cli
-    nuget Fake.DotNet.Testing.NUnit
-    nuget Fake.DotNet.NuGet
-    nuget Fake.DotNet.MsBuild
-    nuget Fake.Tools.Git
-    nuget Fake.IO.Zip
-	  nuget Fake.DotNet.Paket //"
-
 #if !FAKE
 
 #load ".fake/build.fsx/intellisense.fsx"
@@ -22,6 +8,7 @@
 
 open Fake.Core
 open Fake.DotNet
+open Fake.DotNet.Testing
 open Fake.IO
 open Fake.IO.FileSystemOperators
 open Fake.IO.Globbing.Operators
@@ -61,6 +48,29 @@ Target.create "AssemblyInfo" (fun _ ->
 Target.create "Generate" (fun _ ->
   File.writeNew "./src/Affogato/VectorExt.fs" VectorExtGenerator.source
   Trace.log "Generate finished"
+)
+
+
+Target.create "Test" (fun _ ->
+  let testProjects = [
+    "Affogato.Test"
+  ]
+
+  [ for x in testProjects ->
+      sprintf "tests/%s/bin/Release/**/%s.dll" x x
+  ] |> function
+  | [] ->
+    printfn "There is no test project"
+  | x::xs ->
+    Seq.fold (++) (!! x) xs
+    |> Expecto.run id
+)
+
+let dotnet cmd arg = DotNet.exec id cmd arg |> ignore
+
+Target.create "Tool" (fun _ ->
+  dotnet "tool" "update paket"
+  dotnet "tool" "update fake-cli"
 )
 
 Target.create "Clean" (fun _ ->

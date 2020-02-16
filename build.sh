@@ -1,3 +1,4 @@
-#!/bin/bash
-mono .paket/paket.exe restore
-./fake.sh run build.fsx $@
+#!/usr/bin/env bash
+dotnet tool restore
+dotnet paket restore
+dotnet fake run build.fsx $@
