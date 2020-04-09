@@ -59,7 +59,7 @@ module Line =
   let inline squaredLength (l : '``Vector<'a>`` Line) =
     Vector.squaredLength(l.startPoint - l.endPoint)
 
-
+[<Struct>]
 type Rectangle< ^v
       when ^v: (static member Zero: ^v)
       and  ^v: (static member One: ^v)

@@ -26,7 +26,7 @@ module Node =
   let inline init label value = { label=label; value=value }
 
 
-[<NoComparison>]
+[<Struct; NoComparison>]
 type Edge< 'a, 'w
   when 'w: equality
   > = {
