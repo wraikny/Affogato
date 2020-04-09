@@ -21,6 +21,7 @@
     <Compile Include="Dungeon/Model.fs" />
     <Compile Include="Dungeon/MovingRoom.fs" />
     <Compile Include="Dungeon/Builder.fs" />
+    <Compile Include="BoxLayout.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
