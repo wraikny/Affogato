@@ -18,13 +18,9 @@ open Fake.Core.TargetOperators
 // Information about the project to be used at NuGet and in AssemblyInfo files
 let authors = ["wrakny"]
 
-let summary = "A package of libraries for generic math types and advanced algorithms for games"
-
-let description =
-  """A package of libraries for generic math types and advanced algorithms for games"""
+let summary = "A package of libraries for generic math types and advanced algorithms for game developments"
 
 let license = "Apache 2.0 License"
-let tags = "F# fsharp math linearalgebra game"
 
 let release = ReleaseNotes.load "RELEASE_NOTES.md"
 
@@ -110,7 +106,7 @@ Target.create "Pack" (fun _ ->
   |> Seq.iter (DotNet.pack (fun opt ->
     { opt with
         Configuration = DotNet.BuildConfiguration.Release
-        OutputPath = Some "../../output/packages/"
+        OutputPath = Some "output/packages/"
         MSBuildParams = {
           opt.MSBuildParams with
             Properties = [

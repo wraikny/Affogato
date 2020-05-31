@@ -391,6 +391,4 @@ paket-files/
 *.sln.iml
 
 .ionide/
-src/Affogato/VectorExt.fs
-output/.
-src/*/AssemblyInfo.fs
+/output
