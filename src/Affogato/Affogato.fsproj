@@ -1,18 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Product>Affogato</Product>
-    <PackageId>Affogato</PackageId>
-    <Description>A library of F# generic math types for game programming</Description>
+    <AssemblyName>Affogato</AssemblyName>
+    <Authors>wraikny</Authors>
+    <Description>A library of F# generic math types for game development</Description>
     <PackageProjectUrl>https://github.com/wraikny/Affogato</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Copyright>Copyright (c) 2020 wraikny</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>fsharp</PackageTags>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\output\Debug</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\..\output\Release</OutputPath>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helper.fs" />

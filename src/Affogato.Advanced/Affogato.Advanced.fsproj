@@ -1,10 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Product>Affogato.Advanced</Product>
-    <PackageId>Affogato.Advanced</PackageId>
-    <Description>A library of F# advanced algorithms for game programming</Description>
+    <AssemblyName>Affogato.Advanced</AssemblyName>
+    <Authors>wraikny</Authors>
+    <Description>A library of F# advanced algorithms for game development</Description>
     <PackageProjectUrl>https://github.com/wraikny/Affogato</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Copyright>Copyright (c) 2020 wraikny</Copyright>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\output\Debug</OutputPath>

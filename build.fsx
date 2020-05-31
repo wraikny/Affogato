@@ -14,25 +14,15 @@ open Fake.IO.FileSystemOperators
 open Fake.IO.Globbing.Operators
 open Fake.Core.TargetOperators
 
-
-// Information about the project to be used at NuGet and in AssemblyInfo files
-let authors = ["wrakny"]
-
-let summary = "A package of libraries for generic math types and advanced algorithms for game developments"
-
-let license = "Apache 2.0 License"
-
 let release = ReleaseNotes.load "RELEASE_NOTES.md"
 
 release.AssemblyVersion |> Trace.tracefn "Auto version: %s"
 
 Target.create "AssemblyInfo" (fun _ ->
   let info = [
-    AssemblyInfo.Description summary
     AssemblyInfo.Version release.AssemblyVersion
     AssemblyInfo.FileVersion release.AssemblyVersion
     AssemblyInfo.InformationalVersion release.NugetVersion
-    AssemblyInfo.Copyright license
   ]
   !! "src/**/*.fsproj"
   |> Seq.iter(fun path ->
