@@ -1,8 +1,15 @@
-#if !FAKE
+#r "paket:
+source https://api.nuget.org/v3/index.json
+nuget Fake.DotNet.Cli
+nuget Fake.IO.FileSystem
+nuget Fake.Core.Target
+nuget Fake.Core.ReleaseNotes
+nuget Fake.DotNet.AssemblyInfoFile
+nuget Fake.DotNet.Testing.Expecto
+nuget FAKE.IO.Zip //"
 
 #load ".fake/build.fsx/intellisense.fsx"
 #r "netstandard"
-#endif
 
 #load "./src/Affogato/VectorExtGenerator.fs"
 
@@ -85,7 +92,7 @@ Target.create "Zip" (fun _ ->
   |> Shell.copy "./dist"
 
   let zipFileName =
-    sprintf @"./dist/Affogato_v%s.zip" release.AssemblyVersion
+    sprintf @"./dist/Affogato.%s.zip" release.AssemblyVersion
 
   files
   |> Zip.zip "./" zipFileName
