@@ -1,5 +1,6 @@
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwraikny%2FAffogato.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwraikny%2FAffogato?ref=badge_shield)
-![](https://github.com/wraikny/Affogato/workflows/CI/badge.svg)
+[![](https://github.com/wraikny/Affogato/workflows/CI/badge.svg)](https://github.com/wraikny/Affogato/actions?query=workflow%3ACI)
+[![Nuget](https://img.shields.io/nuget/v/Affogato?style=plastic)](https://www.nuget.org/packages/Affogato/)
 # Affogato
 
 ## Description
