@@ -29,16 +29,16 @@ jobs:
     - name: Build
       run: |
         dotnet tool restore
-        dotnet fsi build.fsx build
+        dotnet fsi build.fsx -t build
       env:
         CI: true
 
     - name: Test
-      run: dotnet fsi build.fsx build -t Test
+      run: dotnet fsi build.fsx -t Test
 
     - name: Package
       if: startsWith(github.ref, 'refs/tags/')
-      run: dotnet fsi build.fsx build -t Zip
+      run: dotnet fsi build.fsx -t Zip
 
     # - name: Release
     #   uses: softprops/action-gh-release@v1
@@ -50,7 +50,7 @@ jobs:
 
     - name: Package for Nuget
       if: startsWith(github.ref, 'refs/tags/v')
-      run: dotnet fsi build.fsx build -t Pack
+      run: dotnet fsi build.fsx -t Pack
 
     # - name: Nuget
     #   if: startsWith(github.ref, 'refs/tags/v')
