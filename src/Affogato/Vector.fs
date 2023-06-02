@@ -43,20 +43,14 @@ type Vector2< ^a
   static member inline ToSeq (v : ^a Vector2) =
     seq { yield v.x; yield v.y }
 
-  static member inline Iter (v: ^a Vector2, f: ^a -> unit) = f v.x; f v.y
-  static member inline Exists (v: ^a Vector2, f: ^a -> bool) = f v.x || f v.y
-  static member inline ForAll (v: ^a Vector2, f: ^a -> bool) = f v.x && f v.y
-  static member inline Iter2 (a: ^a Vector2, b: ^b Vector2, f: ^a -> ^b -> unit) = f a.x b.x; f a.y b.y;
-  static member inline Exists2 (a: ^a Vector2, b: ^b Vector2, f: ^a -> ^b -> bool) = f a.x b.x || f a.y b.y
-  static member inline ForAll2 (a: ^a Vector2, b: ^b Vector2, f: ^a -> ^b -> bool) = f a.x b.x && f a.y b.y
-
-  static member inline Iter' (f: (^a Vector2 -> ^a) -> unit) =
-    f (fun v -> v.x)
-    f (fun v -> v.y)
-  static member inline Exists' (f: (^a Vector2 -> ^a) -> bool) =
-    f (fun v -> v.x) || f (fun v -> v.y)
-  static member inline ForAll' (f: (^a Vector2 -> ^a) -> bool) =
+  static member inline Fold' (state: 's, f: 's -> (^a Vector2 -> ^a) -> 's): 's =
+    let f = flip f in state |> f (fun v -> v.x) |> f (fun v -> v.y)
+  static member inline ForAll' (f: (^a Vector2 -> ^a) -> bool): bool =
     f (fun v -> v.x) && f (fun v -> v.y)
+
+  static member inline Fold2 (a: ^a Vector2, b: ^b Vector2, state: 's, f: 's -> ^a -> ^b -> 's): 's =
+    let f s a b = f a b s in state |> f a.x b.x |> f a.y b.y
+  static member inline ForAll2 (a: ^a Vector2, b: ^b Vector2, f: ^a -> ^b -> bool) = f a.x b.x && f a.y b.y
 
 [<Struct>]
 type Vector3< ^a
@@ -99,21 +93,14 @@ type Vector3< ^a
   static member inline ToSeq (v : ^a Vector3) =
     seq { yield v.x; yield v.y; yield v.z }
 
-  static member inline Iter (v: ^a Vector3, f: ^a -> unit) = f v.x; f v.y; f v.z;
-  static member inline Exists (v: ^a Vector3, f: ^a -> bool) = f v.x || f v.y || f v.z
-  static member inline ForAll (v: ^a Vector3, f: ^a -> bool) = f v.x && f v.y && f v.z
-  static member inline Iter2 (a: ^a Vector3, b: ^b Vector3, f: ^a -> ^b -> unit) = f a.x b.x; f a.y b.y; f a.z b.z;
-  static member inline Exists2 (a: ^a Vector3, b: ^b Vector3, f: ^a -> ^b -> bool) = f a.x b.x || f a.y b.y || f a.z b.z
-  static member inline ForAll2 (a: ^a Vector3, b: ^b Vector3, f: ^a -> ^b -> bool) = f a.x b.x && f a.y b.y && f a.z b.z
-
-  static member inline Iter' (f: (^a Vector3 -> ^a) -> unit) =
-    f (fun v -> v.x)
-    f (fun v -> v.y)
-    f (fun v -> v.z)
-  static member inline Exists' (f: (^a Vector3 -> ^a) -> bool) =
-    f (fun v -> v.x) || f (fun v -> v.y) || f (fun v -> v.z)
+  static member inline Fold' (state: 's, f: 's -> (^a Vector3 -> ^a) -> 's) =
+    let f = flip f in state |> f (fun v -> v.x) |> f (fun v -> v.y) |> f (fun v -> v.z)
   static member inline ForAll' (f: (^a Vector3 -> ^a) -> bool) =
     f (fun v -> v.x) && f (fun v -> v.y) && f (fun v -> v.z)
+
+  static member inline Fold2 (a: ^a Vector3, b: ^b Vector3, state: 's, f: 's -> ^a -> ^b -> 's): 's =
+    let f s a b = f a b s in state |> f a.x b.x |> f a.y b.y |> f a.z b.z
+  static member inline ForAll2 (a: ^a Vector3, b: ^b Vector3, f: ^a -> ^b -> bool) = f a.x b.x && f a.y b.y && f a.z b.z
 
 [<Struct>]
 type Vector4< ^a
@@ -158,22 +145,14 @@ type Vector4< ^a
   static member inline ToSeq (v : ^a Vector4) =
     seq { yield v.x; yield v.y; yield v.z; yield v.w }
 
-  static member inline Iter (v: ^a Vector4, f: ^a -> unit) = f v.x; f v.y; f v.z; f v.w
-  static member inline Exists (v: ^a Vector4, f: ^a -> bool) = f v.x || f v.y || f v.z || f v.w
-  static member inline ForAll (v: ^a Vector4, f: ^a -> bool) = f v.x && f v.y && f v.z && f v.w
-  static member inline Iter2 (a: ^a Vector4, b: ^b Vector4, f: ^a -> ^b -> unit) = f a.x b.x; f a.y b.y; f a.z b.z; f a.w b.w
-  static member inline Exists2 (a: ^a Vector4, b: ^b Vector4, f: ^a -> ^b -> bool) = f a.x b.x || f a.y b.y || f a.z b.z || f a.w b.w
-  static member inline ForAll2 (a: ^a Vector4, b: ^b Vector4, f: ^a -> ^b -> bool) = f a.x b.x && f a.y b.y && f a.z b.z && f a.w b.w
-
-  static member inline Iter' (f: (^a Vector4 -> ^a) -> unit) =
-    f (fun v -> v.x)
-    f (fun v -> v.y)
-    f (fun v -> v.z)
-    f (fun v -> v.w)
-  static member inline Exists' (f: (^a Vector4 -> ^a) -> bool) =
-    f (fun v -> v.x) || f (fun v -> v.y) || f (fun v -> v.z) || f (fun v -> v.w)
+  static member inline Fold' (state: 's, f: 's -> (^a Vector4 -> ^a) -> 's) =
+    let f = flip f in state |> f (fun v -> v.x) |> f (fun v -> v.y) |> f (fun v -> v.z) |> f (fun v -> v.w)
   static member inline ForAll' (f: (^a Vector4 -> ^a) -> bool) =
     f (fun v -> v.x) && f (fun v -> v.y) && f (fun v -> v.z) && f (fun v -> v.w)
+
+  static member inline Fold2 (a: ^a Vector4, b: ^b Vector4, state: 's, f: 's -> ^a -> ^b -> 's): 's =
+    let f s a b = f a b s in state |> f a.x b.x |> f a.y b.y |> f a.z b.z |> f a.w b.w
+  static member inline ForAll2 (a: ^a Vector4, b: ^b Vector4, f: ^a -> ^b -> bool) = f a.x b.x && f a.y b.y && f a.z b.z && f a.w b.w
 
 [<RequireQualifiedAccess; CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Vector2 =
@@ -228,47 +207,31 @@ module Vector =
     if false then constraint' x
     (^``Vector<'a>``: (static member ToSeq: _->_) x)
 
-  let inline iter (f: 'a -> unit) (x: ^``Vector<'a>``): unit =
-    if false then constraint' x
-    (^``Vector<'a>``: (static member Iter: _*_->_) x, f)
-
-  let inline exists (f: 'a -> bool) (x: ^``Vector<'a>``): bool =
-    if false then constraint' x
-    (^``Vector<'a>``: (static member Exists: _*_->_) x, f)
-
-  let inline forall (f: 'a -> bool) (x: ^``Vector<'a>``): bool =
-    if false then constraint' x
-    (^``Vector<'a>``: (static member ForAll: _*_->_) x, f)
-
-  let inline iter2 (f: 'a -> 'b -> unit) (x: ^``Vector<'a>``) (y: ^``Vector<'b>``): unit =
-    if false then
-      constraint' x
-      constraint' y
-    ((^``Vector<'a>`` or ^``Vector<'b>``): (static member Iter2: _*_*_->_) x,y,f)
-
-  let inline exists2 (f: 'a -> 'b -> bool) (x: ^``Vector<'a>``) (y: ^``Vector<'b>``): bool =
-    if false then 
-      constraint' x
-      constraint' y
-    ((^``Vector<'a>`` or ^``Vector<'b>``): (static member Exists2: _*_*_->_) x,y,f)
-
-  let inline forall2 (f: 'a -> 'b -> bool) (x: ^``Vector<'a>``) (y: ^``Vector<'b>``): bool =
-    if false then
-      constraint' x
-      constraint' y
-    ((^``Vector<'a>`` or ^``Vector<'b>``): (static member ForAll2: _*_*_->_) x,y,f)
-
-  let inline iter' (f: (^``Vector<'a>`` -> 'a) -> unit): unit =
+  let inline fold' (f: 's -> (^``Vector<'a>`` -> 'a) -> 's) (state: 's) : 's =
     if false then constraint' (Unchecked.defaultof< ^``Vector<'a>`` >)
-    (^``Vector<'a>``: (static member Iter': _->_) f)
-
-  let inline exists' (f: (^``Vector<'a>`` -> 'a) -> bool): bool =
-    if false then constraint' (Unchecked.defaultof< ^``Vector<'a>`` >)
-    (^``Vector<'a>``: (static member Exists': _->_) f)
-
-  let inline forall' (f: (^``Vector<'a>`` -> 'a) -> bool): bool =
+    (^``Vector<'a>``: (static member Fold': _*_->_) state,f)
+  let inline forall' (f: (^``Vector<'a>`` -> 'a) -> bool) : bool =
     if false then constraint' (Unchecked.defaultof< ^``Vector<'a>`` >)
     (^``Vector<'a>``: (static member ForAll': _->_) f)
+
+  let inline exists' (f: (^``Vector<'a>`` -> 'a) -> bool) : bool = forall' (f >> not) |> not
+  let inline iter' (f: (^``Vector<'a>`` -> 'a) -> unit) : unit = fold' (fun () k -> f k) ()
+
+  let inline fold f (state: 's) (v: ^``Vector<'a>``) = fold' (fun s k -> f s (k v)) state
+  let inline forall f (v: ^``Vector<'a>``) = forall' (fun k -> f (k v))
+  let inline exists f (v: ^``Vector<'a>``) = exists' (fun k -> f (k v))
+  let inline iter f (v: ^``Vector<'a>``) = iter' (fun k -> f (k v))
+
+  let inline fold2 (f: 's -> 'a -> 'b -> 's) (state: 's) (a: ^``Vector<'a>``) (b: ^``Vector<'b>``) : 's =
+    if false then constraint' (Unchecked.defaultof< ^``Vector<'a>`` >)
+    (^``Vector<'a>``: (static member Fold2: _*_*_*_->_) a,b,state,f)
+  let inline forall2 (f: 'a -> 'b -> bool) (a: ^``Vector<'a>``) (b: ^``Vector<'b>``) : bool =
+    if false then constraint' (Unchecked.defaultof< ^``Vector<'a>`` >)
+    (^``Vector<'a>``: (static member ForAll2: _*_*_->_) a,b,f)
+
+  let inline exists2 (f: 'a -> 'b -> bool) (a: ^``Vector<'a>``) (b: ^``Vector<'b>``) : bool =
+    forall2 (fun a b -> f a b |> not) a b |> not
+  let inline iter2 (f: 'a -> 'b -> unit) (a: ^``Vector<'a>``) (b: ^``Vector<'b>``): unit = fold2 (fun () k -> f k) () a b
 
   let inline dot (a : ^``Vector<'a>``) (b : ^``Vector<'a>``) =
     if false then constraint' a
