@@ -1,4 +1,4 @@
-module private VectorExtGenerator
+module internal VectorExtGenerator
 
 let private fields = "xyzw"
 

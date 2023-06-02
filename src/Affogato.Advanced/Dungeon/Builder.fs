@@ -268,7 +268,7 @@ module Builder =
         corridorRectangles
         |> Seq.exists(fun cr ->
             room.rect
-            |> Rectangle.isCollided2 cr
+            |> Rectangle.isCollided cr
         )
       )
       |> debugPrint "collidedSmallRooms"

@@ -58,7 +58,7 @@ type internal MovingRoom(rect : float32 Rectangle2, movingRate, rooms) =
 
 
   member private this.IsCollidedWith(other : MovingRoom) =
-    Rectangle.isCollided2 this.RectF other.RectF
+    Rectangle.isCollided this.RectF other.RectF
 
 
   member this.Move(other : MovingRoom) =

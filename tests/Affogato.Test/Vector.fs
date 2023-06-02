@@ -6,7 +6,7 @@ open Expecto
 let vector2Test =
   testList "Vector" [
     testList "Vector2" [
-      testProperty "int Vector2 (+" <| fun (a: int Vector2) b ->
+      testProperty "int Vector2 (+)" <| fun (a: int Vector2) b ->
         let c = a + b
         c.x = a.x + b.x && c.y = a.y + b.y
       testProperty "int Vector2 (-)" <| fun (a: int Vector2) b ->
@@ -29,6 +29,10 @@ let vector2Test =
       testProperty "int vector2 map" <| fun (a: int Vector2) d ->
         let b = a |> Vector.map ((+) d)
         b.x = a.x + d && b.y = a.y + d
+      testCase "int Vetor2 forall" <| fun () ->
+        Expect.isTrue
+          (Vector.forall ((<) 0) (Vector2.init 1 2))
+          "forall"
     ]
 
     testList "Vector3" [

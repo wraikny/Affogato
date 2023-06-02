@@ -1,25 +1,30 @@
-#r "paket:
-source https://api.nuget.org/v3/index.json
-nuget Fake.DotNet.Cli
-nuget Fake.IO.FileSystem
-nuget Fake.Core.Target
-nuget Fake.Core.ReleaseNotes
-nuget Fake.DotNet.AssemblyInfoFile
-nuget Fake.DotNet.Testing.Expecto
-nuget FAKE.IO.Zip //"
+#!dotnet fsi
 
-#load ".fake/build.fsx/intellisense.fsx"
 #r "netstandard"
+#r "nuget: MSBuild.StructuredLogger"
+#r "nuget: Fake.Core"
+#r "nuget: Fake.Core.Target"
+#r "nuget: Fake.Core.ReleaseNotes"
+#r "nuget: Fake.IO.FileSystem"
+#r "nuget: Fake.DotNet.Cli"
+#r "nuget: Fake.DotNet.AssemblyInfoFile"
+#r "nuget: Fake.DotNet.Testing.Expecto"
 
 #load "./src/Affogato/VectorExtGenerator.fs"
 
 open Fake.Core
+open Fake.IO
+open Fake.IO.Globbing.Operators
 open Fake.DotNet
 open Fake.DotNet.Testing
-open Fake.IO
-open Fake.IO.FileSystemOperators
-open Fake.IO.Globbing.Operators
-open Fake.Core.TargetOperators
+
+// Boilerplate
+System.Environment.GetCommandLineArgs()
+|> Array.skip 2 // skip fsi.exe; build.fsx
+|> Array.toList
+|> Context.FakeExecutionContext.Create false __SOURCE_FILE__
+|> Context.RuntimeContext.Fake
+|> Context.setExecutionContext
 
 let release = ReleaseNotes.load "RELEASE_NOTES.md"
 
@@ -49,6 +54,10 @@ Target.create "Test" (fun _ ->
     "Affogato.Test"
   ]
 
+  !! "src/**/*.*proj"
+  ++ "tests/**/*.*proj"
+  |> Seq.iter (DotNet.build (fun p -> { p with Configuration = DotNet.BuildConfiguration.Release }))
+
   [ for x in testProjects ->
       sprintf "tests/%s/bin/Release/**/%s.dll" x x
   ] |> function
@@ -61,10 +70,6 @@ Target.create "Test" (fun _ ->
 
 let dotnet cmd arg = DotNet.exec id cmd arg |> ignore
 
-Target.create "Tool" (fun _ ->
-  dotnet "tool" "update paket"
-  dotnet "tool" "update fake-cli"
-)
 
 Target.create "Clean" (fun _ ->
   !! "output"
@@ -80,22 +85,6 @@ Target.create "Build" (fun _ ->
   ++ "tests/**/*.*proj"
   |> Seq.iter (DotNet.build id)
   Trace.log "Build finished"
-)
-
-Target.create "Zip" (fun _ ->
-  Shell.cleanDir @"./dist"
-
-  let files =
-    !! "output/Release/netstandard2.0/*.dll"
-    ++ "output/Release/netstandard2.0/*.pdb"
-  files
-  |> Shell.copy "./dist"
-
-  let zipFileName =
-    sprintf @"./dist/Affogato.%s.zip" release.AssemblyVersion
-
-  files
-  |> Zip.zip "./" zipFileName
 )
 
 Target.create "Pack" (fun _ ->
@@ -115,19 +104,5 @@ Target.create "Pack" (fun _ ->
 )
 
 Target.create "All" ignore
-
-// let inline ( *==> ) deps target =
-//   for dep in deps do dep ==> target |> ignore
-//   target
-
-"Clean"
-  ==> "AssemblyInfo"
-  ==> "Generate"
-  ==> "Build"
-  ==> "All"
-
-if not <| System.IO.Directory.Exists(@"./output/Release") then
-  "Build" ==> "Pack" |> ignore
-  "Build" ==> "Zip" |> ignore
 
 Target.runOrDefault "All"

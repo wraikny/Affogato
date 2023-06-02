@@ -84,7 +84,7 @@ let inline map2 (f: ^a -> ^b -> ^c) (x: ^``Functor<'a>``) (y: ^``Functor<'b>``) 
 let inline map2' (f: ^a -> ^a -> ^a) (x: ^``Functor<'a>``) (y: ^``Functor<'a>``): ^``Functor<'a>`` =
   map2 f x y
 
-    
+
 let inline toSeq (x: ^``Foldable<'a>``) :_ =
   let inline f' (_: ^Builtin) (x: ^``Foldable<'a>``) =
     ((^``Foldable<'a>`` or ^Builtin): (static member ToSeq:_->seq<_>) x)

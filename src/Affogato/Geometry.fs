@@ -79,6 +79,10 @@ type Rectangle< ^v
     position = f x.position
     size = f x.size
   }
+  static member inline Map2(x, y, f) = {
+    position = f x.position y.position
+    size = f x.size y.size
+  }
 
 
 type Rectangle2< ^a
@@ -107,40 +111,37 @@ module Rectangle =
   let inline size r = r.size
 
   let inline diagonalPosition (r: '``Vector<'a>`` Rectangle) : '``Vector<'a>`` =
-    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
+    if false then Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
     r.position + r.size
 
   let inline centerPosition (r: '``Vector<'a>`` Rectangle) : '``Vector<'a>`` =
-    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
+    if false then Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
     let two: '``Vector<'a>`` = one + one
     r.position + r.size / two
 
   let inline lurd r : ('``Vector<'a>`` * '``Vector<'a>``) =
-    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
+    if false then Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
     r.position, diagonalPosition r
 
   let inline isCollidedAxis(axis : '``Vector<'a>`` -> 'a) (aLU, aRD) (bLU, bRD) : bool =
     Utils.inCollision (axis aLU, axis aRD) (axis bLU, axis bRD)
 
   let inline isInside (p : '``Vector<'a>``) r : bool =
-    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
+    if false then Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
 
     let lu, rd = lurd r
-    
-    Seq.zip (Vector.toSeq lu) (Vector.toSeq rd)
-    |> Seq.zip (Vector.toSeq p)
-    |> Seq.forall(fun (p', (lu', rd')) ->
-      lu' <= p' && p' <= rd')
 
+    Vector.forall' (fun f ->
+      f lu < f p && f p < f rd
+    )
 
-  let inline isCollided2 (a : ^a Rectangle2) (b : ^a Rectangle2) : bool =
+  let inline isCollided (a : ^a Rectangle) (b : ^a Rectangle) : bool =
     let aLU, aRD = lurd a
     let bLU, bRD = lurd b
-
-    let inline f (axis : _ -> ^a) =
-      not(axis bRD < axis aLU || axis aRD < axis bLU)
-
-    (f Vector.x) && (f Vector.y)
+    
+    Vector.forall' (fun f ->
+      not(f bRD < f aLU || f aRD < f bLU)
+    )
 
 
 module Rectangle2 =
@@ -177,6 +178,10 @@ type Sphere< ^a, ^v
     radius = f x.radius
     center = map f x.center
   }
+  static member inline Map2(x: Sphere<'ax, 'vx>, y: Sphere<'ay, 'vy>, f: 'ax -> 'ay -> 'ar): Sphere<'ar, 'vr> = {
+    radius = f x.radius y.radius
+    center = map2 f x.center y.center
+  }
 
 type Sphere2< ^a
     when ^a: (static member Zero: ^a)
@@ -204,13 +209,13 @@ module Sphere =
   let inline radius c = c.radius
 
   let inline isInside (p : 'a) (c : Sphere<'a, '``Vector<'a>``>) : bool =
-    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
+    if false then Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
 
     let distance = Vector.squaredLength(p - c.center)
     distance < (c.radius * c.radius)
 
   let inline isCollided (a : Sphere<'a, '``Vector<'a>``>) (b : Sphere<'a, '``Vector<'a>``>) : bool =
-    Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
+    if false then Vector.constraint' (Unchecked.defaultof< '``Vector<'a>`` >)
 
     let distance = (a.center - b.center) |> Vector.squaredLength
     let radiusSum =
@@ -242,6 +247,11 @@ type Triangle< ^v
     p1 = f x.p1
     p2 = f x.p2
     p3 = f x.p3
+  }
+  static member inline Map(x, y, f) = {
+    p1 = f x.p1 y.p1
+    p2 = f x.p2 y.p2
+    p3 = f x.p3 y.p3
   }
 
 

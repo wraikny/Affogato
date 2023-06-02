@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <AssemblyName>Affogato.Advanced</AssemblyName>
     <Authors>wraikny</Authors>
     <Description>A library of F# advanced algorithms for game development</Description>
@@ -9,12 +9,7 @@
     <Copyright>Copyright (c) 2020 wraikny</Copyright>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\output\Debug</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\output\Release</OutputPath>
-  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="../Affogato/Affogato.fsproj">
     </ProjectReference>

@@ -8,17 +8,9 @@
     <Description>A library of F# generic math types for game development</Description>
     <PackageProjectUrl>https://github.com/wraikny/Affogato</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Copyright>Copyright (c) 2020 wraikny</Copyright>
+    <Copyright>Copyright (c) 2020-2023 wraikny</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageTags>fsharp</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\output\Debug</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\output\Release</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +20,7 @@
     <Compile Include="Collections/Queue.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="Vector.fs" />
-    <Compile Include="VectorExtGenerator.fs" />
+    <Compile Include="VectorExtGenerator.fs" Condition="'$(Configuration)'=='Debug'" />
     <Compile Include="VectorExt.fs" />
     <Compile Include="Geometry.fs" />
     <Compile Include="Color.fs" />
