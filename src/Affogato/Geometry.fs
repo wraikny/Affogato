@@ -127,8 +127,8 @@ module Rectangle =
 
     let lu, rd = lurd r
     
-    Seq.zip (toSeq lu) (toSeq rd)
-    |> Seq.zip (toSeq p)
+    Seq.zip (Vector.toSeq lu) (Vector.toSeq rd)
+    |> Seq.zip (Vector.toSeq p)
     |> Seq.forall(fun (p', (lu', rd')) ->
       lu' <= p' && p' <= rd')
 
